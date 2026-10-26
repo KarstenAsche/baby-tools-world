@@ -40,6 +40,24 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-local-development-o
 DEBUG = os.getenv("DEBUG", "true") == "true"
 host_list = os.getenv("ALLOWED_HOSTS", "localhost, 127.0.0.1, 0.0.0.0")
 
+# Production security settings.
+#
+# HTTPS is terminated by the trusted Nginx reverse proxy.
+# Secure cookies prevent browsers from sending authentication and
+# CSRF cookies over unencrypted HTTP connections.
+
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
+# Trust HTTPS information from the Nginx reverse proxy.
+# Nginx must explicitly overwrite X-Forwarded-Proto.
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = (
+        "HTTP_X_FORWARDED_PROTO",
+        "https",
+    )
+
+
 ALLOWED_HOSTS = [x.strip() for x in host_list.split(",")]
 
 print(f"Allowed Hosts: \t\t{ALLOWED_HOSTS}")
