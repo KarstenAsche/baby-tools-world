@@ -1,0 +1,28 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    restart: unless-stopped
+
+    ports:
+      - "127.0.0.1:8001:8000"
+
+    env_file:
+      - .env.production
+
+    environment:
+      APP_ENV: production
+      APP_PORT: "8000"
+      SQLITE_PATH: /app/data/db.sqlite3
+
+    volumes:
+      - sqlite_data:/app/data
+      - ./storage/media:/app/src/media
+      - ./storage/staticfiles:/app/src/staticfiles
+
+volumes:
+  sqlite_data:
+  
+
