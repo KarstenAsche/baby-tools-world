@@ -15,8 +15,22 @@ COPY . ${_WORKDIR}
 RUN pip install -r requirements.txt \
     && chmod +x /app/entrypoint.sh
 
+# Create a dedicated unprivileged user for the Django application.
+# A fixed UID and GID allow predictable ownership of persistent volumes.
+RUN groupadd --gid 10001 django \
+    && useradd \
+        --uid 10001 \
+        --gid django \
+        --no-create-home \
+        --shell /usr/sbin/nologin \
+        django
+
+RUN chown -R django:django /app 
+
 # Switch WORKDIR to src/ in order to execute entrypoint commands from there
 WORKDIR /app/src
+
+USER django
 
 EXPOSE $APP_PORT
 ENTRYPOINT ["/app/entrypoint.sh" ]
