@@ -26,6 +26,7 @@ class CommentAdmin(admin.ModelAdmin):
 # Configures the Django admin interface for managing product tags.
 # Allows administrators to create, edit, and delete tags
 
+
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ("name", "created_at", "updated_at")
