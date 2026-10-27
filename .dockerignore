@@ -6,6 +6,7 @@ venv
 **/__pycache__/
 *.pyc
 .env
+.env.*
 *.env
 src/db.sqlite3
 src/media/

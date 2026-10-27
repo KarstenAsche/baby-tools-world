@@ -74,6 +74,12 @@ class Comment(models.Model):
         return f"{who} - {self.rating}★"
 
 
+#  Represents a tag used to categorize and describe products.
+#
+#  Tags can be assigned to multiple products through a many-to-many
+#  relationship, allowing products to be grouped by shared attributes.
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)

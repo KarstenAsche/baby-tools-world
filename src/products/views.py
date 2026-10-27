@@ -59,7 +59,9 @@ def product_detail(request, category_slug, pk):
 
             return redirect("product_detail", category_slug=category_slug, pk=product.pk)
     else:
-        # Pre-fill form for authenticated user with existing comment (if any)
+        # Reset the form after a successful submission to prevent previously
+        # entered values from being displayed again.
+
         form = CommentForm()
 
     return render(
