@@ -187,4 +187,4 @@ For more information about deploying, refer to the deploying documentation in th
 
 ## Checklist PDF
 
-You can find the checklist here <a href="./docs/Baby-Tools-World-Checkliste_Karsten-Asche.pdf" target="_blank">Checklist Project Baby-Tools-World</a>
+You can find the checklist here [checklist](.\docs\Baby-Tools-World-Checkliste_Karsten-Asche.pdf)
