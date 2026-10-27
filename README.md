@@ -180,3 +180,11 @@ In order to overwrite predefined environment configuration in the app, you can s
 ```bash
 docker run --rm -it -p 8000:8000 --env-file .env baby-tools-world:local
 ```
+
+## Deploying Baby Tools World on Ubuntu
+
+For more information about deploying, refer to the deploying documentation in this repository, see [deploying documentation](./docs/deploying.md)
+
+## Checklist PDF
+
+You can find the checklist here [checklist](.\docs\Baby-Tools-World-Checkliste_Karsten-Asche.pdf)

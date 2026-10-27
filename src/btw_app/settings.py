@@ -29,12 +29,34 @@ AUTHOR = os.getenv("AUTHOR")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-mnp$i)1zfiga%tre=iv5b97+t$7zji57d$#t4rk_#1@#*^mi9b"
+# Load Django's secret key from the environment.
+#
+# A development-only fallback allows the application to run locally
+# without requiring additional configuration.
+# Production environments must provide a unique DJANGO_SECRET_KEY.
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-local-development-only-change-me")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "true") == "true"
 host_list = os.getenv("ALLOWED_HOSTS", "localhost, 127.0.0.1, 0.0.0.0")
+
+# Production security settings.
+#
+# HTTPS is terminated by the trusted Nginx reverse proxy.
+# Secure cookies prevent browsers from sending authentication and
+# CSRF cookies over unencrypted HTTP connections.
+
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
+# Trust HTTPS information from the Nginx reverse proxy.
+# Nginx must explicitly overwrite X-Forwarded-Proto.
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = (
+        "HTTP_X_FORWARDED_PROTO",
+        "https",
+    )
+
 
 ALLOWED_HOSTS = [x.strip() for x in host_list.split(",")]
 
@@ -91,11 +113,15 @@ WSGI_APPLICATION = "btw_app.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+# Configure the SQLite database location.
+#
+# Local development uses the default database file inside the src directory.
+# Docker production deployments can override the location using SQLITE_PATH
+# to store the database on a persistent Docker volume.
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": os.getenv("SQLITE_PATH", str(BASE_DIR / "db.sqlite3")),
     }
 }
 
